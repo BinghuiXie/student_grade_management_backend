@@ -28,4 +28,15 @@ export class CourseInfoService {
         })
         return courseInfoList;
     }
+
+    async getCourseInfoItemByName(courseName: string): Promise<CourseInfo> {
+        const selectQuery = this.courseInfoRepository.createQueryBuilder('course')
+            .where('course.course_name = :name', { name: courseName })
+        const courseItem = await selectQuery.getOne();
+        return courseItem;
+    }
+
+    // async getCourseInfoItemById(id: number): Promise<CourseInfo> {
+
+    // }
 }

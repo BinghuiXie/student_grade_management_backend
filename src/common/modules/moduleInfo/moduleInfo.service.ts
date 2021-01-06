@@ -40,13 +40,19 @@ export class ModuleInfoService {
         return res;
     }
 
-    async alterModuleData(id: number, newData: any) {
+    async alterModuleData(id: number, newData: any): Promise<any> {
+        let resp;
+        try {
+            newData = JSON.parse(newData);
+        } catch (error) {
+            throw error(`newData is not a valid JSONObj: ${newData}`)
+        }
         switch (id) {
             case 0:
-                await this.studentGradeService.alterStudentGrade(newData);
+                resp = await this.studentGradeService.alterStudentGrade(newData);
                 break;
             case 2:
-                await this.teacherInfoService
+                resp = await this.teacherInfoService.alterTeacherInfo(newData);
                 break;
             case 3:
                 await this.studentInfoService
@@ -57,5 +63,7 @@ export class ModuleInfoService {
             default:
 
         }
+
+        return resp;
     }
 }
